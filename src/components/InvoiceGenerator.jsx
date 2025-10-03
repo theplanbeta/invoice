@@ -181,30 +181,27 @@ export default function InvoiceGenerator() {
       logoImg.onerror = reject;
     });
 
-    // Elegant header with refined spacing
-    doc.setFillColor(220, 38, 38);
+    // Elegant header with refined spacing - new brand color
+    doc.setFillColor(210, 48, 44);
     doc.rect(0, 0, 210, 55, 'F');
 
-    // Add white circle background for logo to make it more prominent
-    doc.setFillColor(255, 255, 255);
-    doc.circle(32, 26, 15, 'F');
+    // Use SVG logo with text directly (no background needed)
+    const logoSvg = new Image();
+    logoSvg.src = '/logo-full.svg';
 
-    // Add logo to header with better visibility
-    doc.addImage(logoImg, 'PNG', 18, 12, 28, 28);
+    await new Promise((resolve, reject) => {
+      logoSvg.onload = resolve;
+      logoSvg.onerror = reject;
+    });
 
-    // School name - elegant typography with Times Roman for sophistication
+    // Add full logo with text in header
+    doc.addImage(logoSvg, 'SVG', 15, 15, 80, 25);
+
+    // Tagline below logo
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(28);
-    doc.setFont('times', 'bold');
-    doc.text('PLAN BETA', 52, 24);
-
-    doc.setFontSize(12);
-    doc.setFont('times', 'italic');
-    doc.text('School of German', 52, 33);
-
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in German Language Education', 52, 40);
+    doc.text('Excellence in German Language Education', 18, 44);
 
     // Invoice title - elegant positioning
     doc.setFontSize(22);
@@ -213,7 +210,7 @@ export default function InvoiceGenerator() {
 
     // Invoice details box - refined elegant styling
     doc.setFillColor(255, 255, 255);
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(0.3);
     doc.roundedRect(148, 27, 47, 20, 2, 2, 'FD');
 
@@ -223,7 +220,7 @@ export default function InvoiceGenerator() {
     doc.text('INVOICE NUMBER', 151, 32);
 
     doc.setFontSize(11);
-    doc.setTextColor(220, 38, 38);
+    doc.setTextColor(210, 48, 44);
     doc.setFont('helvetica', 'bold');
     doc.text(`#${formData.invoiceNumber}`, 151, 38);
 
@@ -253,7 +250,7 @@ export default function InvoiceGenerator() {
     // Bill to section - elegant typography with red highlight
     doc.setFont('times', 'bold');
     doc.setFontSize(11);
-    doc.setTextColor(220, 38, 38);
+    doc.setTextColor(210, 48, 44);
     doc.text('BILL TO', 120, 66);
 
     doc.setFont('times', 'bold');
@@ -286,11 +283,11 @@ export default function InvoiceGenerator() {
     // Payment terms - enhanced with box
     if (formData.dueDate) {
       doc.setFillColor(254, 242, 242);
-      doc.setDrawColor(220, 38, 38);
+      doc.setDrawColor(210, 48, 44);
       doc.setLineWidth(0.3);
       doc.roundedRect(119, 100, 76, 8, 1.5, 1.5, 'FD');
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(220, 38, 38);
+      doc.setTextColor(210, 48, 44);
       doc.setFontSize(9);
       doc.text(`Due Date: ${formData.dueDate}`, 122, 105);
       doc.setFont('helvetica', 'normal');
@@ -298,7 +295,7 @@ export default function InvoiceGenerator() {
 
     // Table header with elegant spacing
     const tableTop = 115;
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(210, 48, 44);
     doc.rect(15, tableTop, 180, 12, 'F');
 
     doc.setTextColor(255, 255, 255);
@@ -372,13 +369,13 @@ export default function InvoiceGenerator() {
     });
 
     // Elegant table bottom border
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(0.8);
     doc.line(15, yPos - 7, 195, yPos - 7);
 
     // Decorative red separator line before payment summary
     yPos += 8;
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(0.3);
     doc.line(15, yPos, 195, yPos);
 
@@ -391,14 +388,14 @@ export default function InvoiceGenerator() {
 
     // Elegant payment summary box with refined border
     const summaryBoxHeight = parseFloat(remaining) > 0 ? 42 : 32;
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(0.4);
     doc.setFillColor(255, 252, 252);
     doc.roundedRect(128, yPos - 6, 67, summaryBoxHeight, 3, 3, 'FD');
 
     // Total Amount - refined typography
     yPos += 3;
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(210, 48, 44);
     doc.rect(130, yPos - 7, 63, 13, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
@@ -438,7 +435,7 @@ export default function InvoiceGenerator() {
     doc.setFillColor(250, 251, 253);
     doc.roundedRect(15, yPos, 180, 30, 2.5, 2.5, 'FD');
 
-    doc.setTextColor(220, 38, 38);
+    doc.setTextColor(210, 48, 44);
     doc.setFontSize(10);
     doc.setFont('times', 'bold');
     doc.text('BANK DETAILS FOR PAYMENT', 20, yPos + 8);
@@ -470,12 +467,12 @@ export default function InvoiceGenerator() {
     yPos += 38;
 
     // IMPORTANT: NO REFUND WARNING BOX - Prominent
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(1);
     doc.setFillColor(254, 226, 226);
     doc.roundedRect(15, yPos, 180, 16, 2, 2, 'FD');
 
-    doc.setTextColor(220, 38, 38);
+    doc.setTextColor(210, 48, 44);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('⚠ IMPORTANT: NO REFUND POLICY', 20, yPos + 6);
@@ -488,13 +485,13 @@ export default function InvoiceGenerator() {
     yPos += 22;
 
     // Refund Policy Section - Enhanced with red left border
-    doc.setTextColor(220, 38, 38);
+    doc.setTextColor(210, 48, 44);
     doc.setFont('times', 'bold');
     doc.setFontSize(11);
     doc.text('PAYMENT TERMS & REFUND POLICY', 25, yPos);
 
     // Red left border stripe for policy text
-    doc.setDrawColor(220, 38, 38);
+    doc.setDrawColor(210, 48, 44);
     doc.setLineWidth(3);
 
     doc.setFont('helvetica', 'normal');
@@ -516,7 +513,7 @@ export default function InvoiceGenerator() {
         parts.forEach(part => {
           if (/(non-refundable|regardless of attendance|binding and non-negotiable)/i.test(part)) {
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(220, 38, 38);
+            doc.setTextColor(210, 48, 44);
           } else {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 50, 50);
@@ -548,7 +545,7 @@ export default function InvoiceGenerator() {
 
     // Footer - Elegant refined design
     const footerY = 263;
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(210, 48, 44);
     doc.rect(0, footerY, 210, 34, 'F');
 
     doc.setFontSize(12);
@@ -594,14 +591,10 @@ export default function InvoiceGenerator() {
       <div className="max-w-5xl mx-auto">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-red-600 to-red-700 p-8 text-white">
+          <div style={{backgroundColor: '#d2302c'}} className="p-8 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <img src="/logo.png" alt="Plan Beta Logo" className="w-16 h-16" />
-                <div>
-                  <h1 className="text-4xl font-bold mb-2">Plan Beta</h1>
-                  <p className="text-red-100 text-lg">School of German | Invoice Generator</p>
-                </div>
+                <img src="/logo-full.svg" alt="Plan Beta Logo" className="h-16" />
               </div>
               <FileText className="w-16 h-16 opacity-80" />
             </div>
@@ -621,12 +614,16 @@ export default function InvoiceGenerator() {
                     value={formData.invoiceNumber}
                     onChange={handleChange}
                     placeholder="INV-2025-001"
-                    className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent font-semibold"
+                    className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg focus:ring-2 focus:border-transparent font-semibold"
+                    style={{focusRingColor: '#d2302c'}}
                   />
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, invoiceNumber: generateInvoiceNumber() }))}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-white px-2 py-1 rounded"
+                    style={{backgroundColor: '#d2302c'}}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#b82824'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#d2302c'}
                     title="Generate new invoice number"
                   >
                     New
@@ -745,7 +742,10 @@ export default function InvoiceGenerator() {
                 <h2 className="text-xl font-bold text-gray-800">Course Details</h2>
                 <button
                   onClick={addItem}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors"
+                  style={{backgroundColor: '#d2302c'}}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#b82824'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#d2302c'}
                 >
                   <Plus className="w-4 h-4" />
                   Add Course

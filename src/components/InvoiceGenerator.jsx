@@ -31,6 +31,7 @@ export default function InvoiceGenerator() {
 
   const levels = [
     { value: 'A1', label: 'A1 - Beginner', color: '#10b981', feeINR: 14000, feeEUR: 134 },
+    { value: 'A1 Hybrid', label: 'A1 Hybrid', color: '#06b6d4', feeINR: 10000, feeEUR: 100 },
     { value: 'A2', label: 'A2 - Elementary', color: '#3b82f6', feeINR: 16000, feeEUR: 156 },
     { value: 'B1', label: 'B1 - Intermediate', color: '#f59e0b', feeINR: 18000, feeEUR: 172 },
     { value: 'B2', label: 'B2 - Upper Intermediate', color: '#8b5cf6', feeINR: 22000, feeEUR: 220 }

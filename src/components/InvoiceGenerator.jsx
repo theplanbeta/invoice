@@ -174,58 +174,75 @@ export default function InvoiceGenerator() {
 
     // Header with gradient effect
     doc.setFillColor(220, 38, 38);
-    doc.rect(0, 0, 210, 45, 'F');
+    doc.rect(0, 0, 210, 50, 'F');
 
     // School name
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(28);
+    doc.setFontSize(32);
     doc.setFont(undefined, 'bold');
-    doc.text('PLAN BETA', 20, 22);
+    doc.text('PLAN BETA', 20, 24);
 
-    doc.setFontSize(13);
+    doc.setFontSize(14);
     doc.setFont(undefined, 'normal');
-    doc.text('School of German', 20, 31);
-    doc.setFontSize(10);
-    doc.text('Excellence in German Language Education', 20, 38);
+    doc.text('School of German', 20, 33);
+    doc.setFontSize(9);
+    doc.text('Excellence in German Language Education', 20, 40);
 
     // Invoice title
-    doc.setFontSize(24);
+    doc.setFontSize(26);
     doc.setFont(undefined, 'bold');
-    doc.text('INVOICE', 155, 22);
+    doc.text('INVOICE', 152, 24);
 
-    // Invoice details box
-    doc.setFillColor(243, 244, 246);
-    doc.roundedRect(145, 26, 45, 14, 2, 2, 'F');
-    doc.setFontSize(9);
+    // Invoice details box - improved styling
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(145, 28, 50, 18, 3, 3, 'FD');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
     doc.setFont(undefined, 'normal');
-    doc.text(`#${formData.invoiceNumber}`, 148, 32);
-    doc.text(`Date: ${formData.date}`, 148, 37);
-
-    // School contact info
-    doc.setTextColor(0, 0, 0);
+    doc.text('Invoice Number', 148, 33);
     doc.setFontSize(10);
+    doc.setTextColor(220, 38, 38);
     doc.setFont(undefined, 'bold');
-    doc.text('Plan Beta School of German', 20, 55);
+    doc.text(`#${formData.invoiceNumber}`, 148, 38);
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Date: ${formData.date}`, 148, 43);
+
+    // School contact info with better spacing
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.text('Plan Beta School of German', 20, 60);
     doc.setFont(undefined, 'normal');
     doc.setFontSize(9);
-    doc.text('KRA A-23, Chattamby Swamy Nagar', 20, 61);
-    doc.text('Kannammoola, Thiruvananthapuram', 20, 66);
-    doc.text('Kerala 695011, India', 20, 71);
-    doc.text('GST: 32AJVPS3359N1ZB', 20, 76);
+    doc.setTextColor(60, 60, 60);
+    doc.text('KRA A-23, Chattamby Swamy Nagar', 20, 67);
+    doc.text('Kannammoola, Thiruvananthapuram', 20, 72);
+    doc.text('Kerala 695011, India', 20, 77);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(0, 0, 0);
+    doc.text('GST: 32AJVPS3359N1ZB', 20, 84);
 
-    // Bill to section
+    // Bill to section with better styling
     doc.setFont(undefined, 'bold');
     doc.setFontSize(11);
-    doc.text('BILL TO:', 120, 55);
+    doc.setTextColor(220, 38, 38);
+    doc.text('BILL TO:', 120, 60);
 
-    doc.setFont(undefined, 'normal');
+    doc.setFont(undefined, 'bold');
     doc.setFontSize(10);
-    doc.text(formData.studentName, 120, 62);
+    doc.setTextColor(0, 0, 0);
+    doc.text(formData.studentName, 120, 68);
 
     if (formData.studentAddress) {
       doc.setFontSize(9);
-      const addressLines = doc.splitTextToSize(formData.studentAddress, 80);
-      let yPos = 68;
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(60, 60, 60);
+      const addressLines = doc.splitTextToSize(formData.studentAddress, 70);
+      let yPos = 74;
       addressLines.forEach(line => {
         doc.text(line, 120, yPos);
         yPos += 5;
@@ -244,152 +261,211 @@ export default function InvoiceGenerator() {
     // Payment terms
     if (formData.dueDate) {
       doc.setFont(undefined, 'bold');
-      doc.text(`Due Date: ${formData.dueDate}`, 120, 90);
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(9);
+      doc.text(`Due Date: ${formData.dueDate}`, 120, 96);
       doc.setFont(undefined, 'normal');
     }
 
-    // Table header
-    const tableTop = 100;
+    // Table header with more spacing
+    const tableTop = 106;
     doc.setFillColor(220, 38, 38);
-    doc.rect(15, tableTop, 180, 10, 'F');
+    doc.rect(15, tableTop, 180, 11, 'F');
 
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setFont(undefined, 'bold');
-    doc.text('Description', 18, tableTop + 6.5);
-    doc.text('Level', 75, tableTop + 6.5);
-    doc.text('Month', 100, tableTop + 6.5);
-    doc.text('Batch', 125, tableTop + 6.5);
-    doc.text(`Amount (${formData.currency})`, 167, tableTop + 6.5);
+    doc.text('Description', 18, tableTop + 7);
+    doc.text('Level', 75, tableTop + 7);
+    doc.text('Month', 105, tableTop + 7);
+    doc.text('Batch', 135, tableTop + 7);
+    doc.text(`Amount (${formData.currency})`, 189, tableTop + 7, { align: 'right' });
 
-    // Table content
+    // Table content with improved styling
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'normal');
-    let yPos = tableTop + 16;
+    let yPos = tableTop + 19;
 
     formData.items.forEach((item, index) => {
       const levelColor = levels.find(l => l.value === item.level)?.color || '#000000';
       const amount = parseFloat(item.amount || 0).toFixed(2);
 
-      // Alternating row colors
+      // Alternating row colors with better styling
       if (index % 2 === 0) {
-        doc.setFillColor(249, 250, 251);
-        doc.rect(15, yPos - 5, 180, 10, 'F');
+        doc.setFillColor(248, 250, 252);
+      } else {
+        doc.setFillColor(255, 255, 255);
       }
+      doc.rect(15, yPos - 6, 180, 12, 'F');
+
+      // Add subtle border
+      doc.setDrawColor(230, 230, 230);
+      doc.setLineWidth(0.1);
+      doc.line(15, yPos + 6, 195, yPos + 6);
 
       doc.setFontSize(9);
+      doc.setTextColor(40, 40, 40);
       doc.text(item.description, 18, yPos);
 
-      // Level badge
+      // Level badge with improved styling
       doc.setFillColor(parseInt(levelColor.slice(1, 3), 16),
                        parseInt(levelColor.slice(3, 5), 16),
                        parseInt(levelColor.slice(5, 7), 16));
-      doc.roundedRect(75, yPos - 4, 15, 6, 1, 1, 'F');
+      doc.roundedRect(75, yPos - 4.5, 18, 7, 1.5, 1.5, 'F');
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(8);
+      doc.setFontSize(9);
       doc.setFont(undefined, 'bold');
-      doc.text(item.level, 82.5, yPos, { align: 'center' });
+      doc.text(item.level, 84, yPos, { align: 'center' });
 
-      doc.setTextColor(0, 0, 0);
+      doc.setTextColor(40, 40, 40);
       doc.setFont(undefined, 'normal');
       doc.setFontSize(9);
 
       // Month
       if (item.month) {
-        doc.text(item.month, 100, yPos);
+        doc.text(item.month, 105, yPos);
       }
 
       // Batch
       if (item.batch) {
-        doc.text(item.batch, 125, yPos);
+        doc.text(item.batch, 135, yPos);
       }
 
       doc.setFont(undefined, 'bold');
-      doc.text(`${getCurrencySymbol()}${amount}`, 180, yPos, { align: 'right' });
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(10);
+      doc.text(`${getCurrencySymbol()}${amount}`, 189, yPos, { align: 'right' });
 
       yPos += 12;
       doc.setFont(undefined, 'normal');
     });
 
-    // Line separator
-    doc.setDrawColor(200, 200, 200);
-    doc.line(15, yPos - 3, 195, yPos - 3);
+    // Table bottom border
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(0.5);
+    doc.line(15, yPos - 6, 195, yPos - 6);
 
-    // Totals section
-    yPos += 5;
+    // Payment Summary Section - Elegant Box
+    yPos += 10;
     const total = calculateTotal().toFixed(2);
     const payableNow = parseFloat(formData.payableNow || 0).toFixed(2);
     const remaining = parseFloat(formData.remainingAmount || 0).toFixed(2);
     const currencySymbol = getCurrencySymbol();
 
-    doc.setFont(undefined, 'normal');
-    doc.setFontSize(10);
+    // Payment summary box with border
+    const summaryBoxHeight = parseFloat(remaining) > 0 ? 38 : 28;
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(0.5);
+    doc.setFillColor(255, 250, 250);
+    doc.roundedRect(130, yPos - 8, 65, summaryBoxHeight, 3, 3, 'FD');
 
     // Total Amount
-    yPos += 5;
+    yPos += 2;
     doc.setFillColor(220, 38, 38);
-    doc.rect(140, yPos - 6, 55, 10, 'F');
+    doc.rect(132, yPos - 6, 61, 12, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('TOTAL:', 145, yPos);
-    doc.setFontSize(14);
-    doc.text(`${currencySymbol}${total}`, 180, yPos, { align: 'right' });
-
-    // Payable Now
-    doc.setTextColor(0, 0, 0);
-    yPos += 12;
     doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
-    doc.text('Payable Now:', 145, yPos);
+    doc.text('TOTAL AMOUNT:', 135, yPos);
+    doc.setFontSize(14);
+    doc.text(`${currencySymbol}${total}`, 189, yPos, { align: 'right' });
+
+    // Payable Now
     doc.setTextColor(22, 163, 74);
-    doc.text(`${currencySymbol}${payableNow}`, 180, yPos, { align: 'right' });
+    yPos += 12;
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text('Payable Now:', 135, yPos);
+    doc.setFontSize(12);
+    doc.text(`${currencySymbol}${payableNow}`, 189, yPos, { align: 'right' });
 
     // Remaining Amount
     if (parseFloat(remaining) > 0) {
-      doc.setTextColor(0, 0, 0);
-      yPos += 8;
-      doc.setFont(undefined, 'normal');
-      doc.text('Remaining Amount:', 145, yPos);
       doc.setTextColor(239, 68, 68);
-      doc.text(`${currencySymbol}${remaining}`, 180, yPos, { align: 'right' });
+      yPos += 10;
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'bold');
+      doc.text('Remaining Balance:', 135, yPos);
+      doc.setFontSize(12);
+      doc.text(`${currencySymbol}${remaining}`, 189, yPos, { align: 'right' });
     }
 
-    // Additional notes - Refund Policy
-    doc.setTextColor(0, 0, 0);
-    yPos += 15;
+    yPos += 12;
+
+    // Bank Details Section - Elegant Box
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.3);
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(15, yPos, 180, 28, 3, 3, 'FD');
+
+    doc.setTextColor(220, 38, 38);
+    doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(10);
+    doc.text('BANK DETAILS FOR PAYMENT', 20, yPos + 7);
+
+    doc.setTextColor(40, 40, 40);
+    doc.setFontSize(9);
+    doc.setFont(undefined, 'normal');
+
+    // Three columns for bank details
+    doc.text('Account Name:', 20, yPos + 15);
+    doc.setFont(undefined, 'bold');
+    doc.text('PLAN BETA', 20, yPos + 20);
+
+    doc.setFont(undefined, 'normal');
+    doc.text('Account Number:', 75, yPos + 15);
+    doc.setFont(undefined, 'bold');
+    doc.text('50200087416170', 75, yPos + 20);
+
+    doc.setFont(undefined, 'normal');
+    doc.text('IFSC Code:', 135, yPos + 15);
+    doc.setFont(undefined, 'bold');
+    doc.text('HDFC0009459', 135, yPos + 20);
+
+    yPos += 35;
+
+    // Refund Policy Section
+    doc.setTextColor(0, 0, 0);
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(11);
     doc.text('PAYMENT TERMS & REFUND POLICY:', 18, yPos);
 
     doc.setFont(undefined, 'normal');
     doc.setFontSize(8);
+    doc.setTextColor(60, 60, 60);
     yPos += 6;
 
     const notes = doc.splitTextToSize(formData.additionalNotes, 175);
     notes.forEach(line => {
-      if (yPos > 240) {
+      if (yPos > 235) {
         return; // Stop if we're getting too close to footer
       }
       doc.text(line, 18, yPos);
       yPos += 4.5;
     });
 
-    // Footer - now positioned absolutely at bottom
-    const footerY = 267;
+    // Footer - Enhanced with better spacing and design
+    const footerY = 265;
     doc.setFillColor(220, 38, 38);
-    doc.rect(0, footerY, 210, 30, 'F');
+    doc.rect(0, footerY, 210, 32, 'F');
 
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     doc.setTextColor(255, 255, 255);
     doc.setFont(undefined, 'bold');
-    doc.text('Plan Beta School of German', 105, footerY + 7, { align: 'center' });
+    doc.text('Plan Beta School of German', 105, footerY + 9, { align: 'center' });
 
     doc.setFontSize(8);
     doc.setFont(undefined, 'normal');
-    doc.text('KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India', 105, footerY + 13, { align: 'center' });
-    doc.text('GST Number: 32AJVPS3359N1ZB', 105, footerY + 19, { align: 'center' });
-    doc.text('Email: info@planbeta.in | Phone: +49 30 1234567', 105, footerY + 25, { align: 'center' });
+    doc.setTextColor(255, 240, 240);
+    doc.text('KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India', 105, footerY + 16, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont(undefined, 'bold');
+    doc.text('GST: 32AJVPS3359N1ZB', 105, footerY + 22, { align: 'center' });
+
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(255, 240, 240);
+    doc.text('Email: info@planbeta.in | Phone: +49 30 1234567', 105, footerY + 28, { align: 'center' });
 
     // Save the PDF
     const fileName = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.pdf`;

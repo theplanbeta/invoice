@@ -181,80 +181,92 @@ export default function InvoiceGenerator() {
       logoImg.onerror = reject;
     });
 
-    // Header with gradient effect
+    // Elegant header with refined spacing
     doc.setFillColor(220, 38, 38);
-    doc.rect(0, 0, 210, 50, 'F');
+    doc.rect(0, 0, 210, 55, 'F');
 
-    // Add logo to header
-    doc.addImage(logoImg, 'PNG', 15, 10, 30, 30);
+    // Add white circle background for logo to make it more prominent
+    doc.setFillColor(255, 255, 255);
+    doc.circle(32, 26, 15, 'F');
 
-    // School name (positioned to the right of logo)
+    // Add logo to header with better visibility
+    doc.addImage(logoImg, 'PNG', 18, 12, 28, 28);
+
+    // School name - elegant typography with Times Roman for sophistication
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(32);
-    doc.setFont(undefined, 'bold');
-    doc.text('PLAN BETA', 50, 24);
+    doc.setFontSize(28);
+    doc.setFont('times', 'bold');
+    doc.text('PLAN BETA', 52, 24);
 
-    doc.setFontSize(14);
-    doc.setFont(undefined, 'normal');
-    doc.text('School of German', 50, 33);
-    doc.setFontSize(9);
-    doc.text('Excellence in German Language Education', 50, 40);
+    doc.setFontSize(12);
+    doc.setFont('times', 'italic');
+    doc.text('School of German', 52, 33);
 
-    // Invoice title
-    doc.setFontSize(26);
-    doc.setFont(undefined, 'bold');
-    doc.text('INVOICE', 152, 24);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Excellence in German Language Education', 52, 40);
 
-    // Invoice details box - improved styling
+    // Invoice title - elegant positioning
+    doc.setFontSize(22);
+    doc.setFont('times', 'bold');
+    doc.text('INVOICE', 155, 22);
+
+    // Invoice details box - refined elegant styling
     doc.setFillColor(255, 255, 255);
     doc.setDrawColor(220, 38, 38);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(145, 28, 50, 18, 3, 3, 'FD');
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.setFont(undefined, 'normal');
-    doc.text('Invoice Number', 148, 33);
-    doc.setFontSize(10);
-    doc.setTextColor(220, 38, 38);
-    doc.setFont(undefined, 'bold');
-    doc.text(`#${formData.invoiceNumber}`, 148, 38);
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.setFont(undefined, 'normal');
-    doc.text(`Date: ${formData.date}`, 148, 43);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(148, 27, 47, 20, 2, 2, 'FD');
 
-    // School contact info with better spacing
+    doc.setFontSize(7);
+    doc.setTextColor(120, 120, 120);
+    doc.setFont('helvetica', 'normal');
+    doc.text('INVOICE NUMBER', 151, 32);
+
+    doc.setFontSize(11);
+    doc.setTextColor(220, 38, 38);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`#${formData.invoiceNumber}`, 151, 38);
+
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Date: ${formData.date}`, 151, 44);
+
+    // School contact info - refined elegant spacing
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(11);
-    doc.setFont(undefined, 'bold');
-    doc.text('Plan Beta School of German', 20, 60);
-    doc.setFont(undefined, 'normal');
+    doc.setFont('times', 'bold');
+    doc.text('Plan Beta School of German', 20, 66);
+
+    doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    doc.setTextColor(60, 60, 60);
-    doc.text('KRA A-23, Chattamby Swamy Nagar', 20, 67);
-    doc.text('Kannammoola, Thiruvananthapuram', 20, 72);
-    doc.text('Kerala 695011, India', 20, 77);
-    doc.setFont(undefined, 'bold');
-    doc.setTextColor(0, 0, 0);
-    doc.text('GST: 32AJVPS3359N1ZB', 20, 84);
+    doc.setTextColor(80, 80, 80);
+    doc.text('KRA A-23, Chattamby Swamy Nagar', 20, 74);
+    doc.text('Kannammoola, Thiruvananthapuram', 20, 80);
+    doc.text('Kerala 695011, India', 20, 86);
 
-    // Bill to section with better styling
-    doc.setFont(undefined, 'bold');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(0, 0, 0);
+    doc.text('GST: 32AJVPS3359N1ZB', 20, 93);
+
+    // Bill to section - elegant typography with red highlight
+    doc.setFont('times', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(220, 38, 38);
-    doc.text('BILL TO:', 120, 60);
+    doc.text('BILL TO', 120, 66);
 
-    doc.setFont(undefined, 'bold');
-    doc.setFontSize(10);
+    doc.setFont('times', 'bold');
+    doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
-    doc.text(formData.studentName, 120, 68);
+    doc.text(formData.studentName, 120, 75);
 
     if (formData.studentAddress) {
       doc.setFontSize(9);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(60, 60, 60);
-      const addressLines = doc.splitTextToSize(formData.studentAddress, 70);
-      let yPos = 74;
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(80, 80, 80);
+      const addressLines = doc.splitTextToSize(formData.studentAddress, 75);
+      let yPos = 82;
       addressLines.forEach(line => {
         doc.text(line, 120, yPos);
         yPos += 5;
@@ -262,222 +274,308 @@ export default function InvoiceGenerator() {
 
       if (formData.studentEmail) {
         yPos += 2;
-        doc.text(`Email: ${formData.studentEmail}`, 120, yPos);
+        doc.setFontSize(8);
+        doc.text(`${formData.studentEmail}`, 120, yPos);
         yPos += 5;
       }
       if (formData.studentPhone) {
-        doc.text(`Phone: ${formData.studentPhone}`, 120, yPos);
+        doc.text(`${formData.studentPhone}`, 120, yPos);
       }
     }
 
-    // Payment terms
+    // Payment terms - enhanced with box
     if (formData.dueDate) {
-      doc.setFont(undefined, 'bold');
-      doc.setTextColor(0, 0, 0);
+      doc.setFillColor(254, 242, 242);
+      doc.setDrawColor(220, 38, 38);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(119, 100, 76, 8, 1.5, 1.5, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(220, 38, 38);
       doc.setFontSize(9);
-      doc.text(`Due Date: ${formData.dueDate}`, 120, 96);
-      doc.setFont(undefined, 'normal');
+      doc.text(`Due Date: ${formData.dueDate}`, 122, 105);
+      doc.setFont('helvetica', 'normal');
     }
 
-    // Table header with more spacing
-    const tableTop = 106;
+    // Table header with elegant spacing
+    const tableTop = 115;
     doc.setFillColor(220, 38, 38);
-    doc.rect(15, tableTop, 180, 11, 'F');
+    doc.rect(15, tableTop, 180, 12, 'F');
 
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('Description', 18, tableTop + 7);
-    doc.text('Level', 75, tableTop + 7);
-    doc.text('Month', 105, tableTop + 7);
-    doc.text('Batch', 135, tableTop + 7);
-    doc.text(`Amount (${formData.currency})`, 189, tableTop + 7, { align: 'right' });
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text('COURSE DESCRIPTION', 18, tableTop + 7.5);
+    doc.text('LEVEL', 80, tableTop + 7.5);
+    doc.text('MONTH', 110, tableTop + 7.5);
+    doc.text('BATCH', 140, tableTop + 7.5);
+    doc.text(`AMOUNT (${formData.currency})`, 189, tableTop + 7.5, { align: 'right' });
 
-    // Table content with improved styling
+    // Table content with elegant refined styling
     doc.setTextColor(0, 0, 0);
-    doc.setFont(undefined, 'normal');
-    let yPos = tableTop + 19;
+    doc.setFont('helvetica', 'normal');
+    let yPos = tableTop + 21;
 
     formData.items.forEach((item, index) => {
       const levelColor = levels.find(l => l.value === item.level)?.color || '#000000';
       const amount = parseFloat(item.amount || 0).toFixed(2);
 
-      // Alternating row colors with better styling
+      // Elegant alternating row colors
       if (index % 2 === 0) {
-        doc.setFillColor(248, 250, 252);
+        doc.setFillColor(250, 252, 254);
       } else {
         doc.setFillColor(255, 255, 255);
       }
-      doc.rect(15, yPos - 6, 180, 12, 'F');
+      doc.rect(15, yPos - 7, 180, 14, 'F');
 
-      // Add subtle border
-      doc.setDrawColor(230, 230, 230);
+      // Refined subtle border
+      doc.setDrawColor(235, 235, 235);
       doc.setLineWidth(0.1);
-      doc.line(15, yPos + 6, 195, yPos + 6);
+      doc.line(15, yPos + 7, 195, yPos + 7);
 
-      doc.setFontSize(9);
-      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(9.5);
+      doc.setTextColor(30, 30, 30);
+      doc.setFont('helvetica', 'normal');
       doc.text(item.description, 18, yPos);
 
-      // Level badge with improved styling
+      // Refined level badge
       doc.setFillColor(parseInt(levelColor.slice(1, 3), 16),
                        parseInt(levelColor.slice(3, 5), 16),
                        parseInt(levelColor.slice(5, 7), 16));
-      doc.roundedRect(75, yPos - 4.5, 18, 7, 1.5, 1.5, 'F');
+      doc.roundedRect(78, yPos - 4.5, 20, 8, 2, 2, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(9);
-      doc.setFont(undefined, 'bold');
-      doc.text(item.level, 84, yPos, { align: 'center' });
+      doc.setFont('helvetica', 'bold');
+      doc.text(item.level, 88, yPos, { align: 'center' });
 
-      doc.setTextColor(40, 40, 40);
-      doc.setFont(undefined, 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
 
-      // Month
+      // Month - elegant
       if (item.month) {
-        doc.text(item.month, 105, yPos);
+        doc.text(item.month, 110, yPos);
       }
 
-      // Batch
+      // Batch - elegant
       if (item.batch) {
-        doc.text(item.batch, 135, yPos);
+        doc.text(item.batch, 140, yPos);
       }
 
-      doc.setFont(undefined, 'bold');
+      // Amount - bold and prominent
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(10);
       doc.text(`${getCurrencySymbol()}${amount}`, 189, yPos, { align: 'right' });
 
-      yPos += 12;
-      doc.setFont(undefined, 'normal');
+      yPos += 14;
+      doc.setFont('helvetica', 'normal');
     });
 
-    // Table bottom border
+    // Elegant table bottom border
     doc.setDrawColor(220, 38, 38);
-    doc.setLineWidth(0.5);
-    doc.line(15, yPos - 6, 195, yPos - 6);
+    doc.setLineWidth(0.8);
+    doc.line(15, yPos - 7, 195, yPos - 7);
 
-    // Payment Summary Section - Elegant Box
-    yPos += 10;
+    // Decorative red separator line before payment summary
+    yPos += 8;
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(0.3);
+    doc.line(15, yPos, 195, yPos);
+
+    // Payment Summary Section - Refined Elegant Box
+    yPos += 8;
     const total = calculateTotal().toFixed(2);
     const payableNow = parseFloat(formData.payableNow || 0).toFixed(2);
     const remaining = parseFloat(formData.remainingAmount || 0).toFixed(2);
     const currencySymbol = getCurrencySymbol();
 
-    // Payment summary box with border
-    const summaryBoxHeight = parseFloat(remaining) > 0 ? 38 : 28;
+    // Elegant payment summary box with refined border
+    const summaryBoxHeight = parseFloat(remaining) > 0 ? 42 : 32;
     doc.setDrawColor(220, 38, 38);
-    doc.setLineWidth(0.5);
-    doc.setFillColor(255, 250, 250);
-    doc.roundedRect(130, yPos - 8, 65, summaryBoxHeight, 3, 3, 'FD');
+    doc.setLineWidth(0.4);
+    doc.setFillColor(255, 252, 252);
+    doc.roundedRect(128, yPos - 6, 67, summaryBoxHeight, 3, 3, 'FD');
 
-    // Total Amount
-    yPos += 2;
+    // Total Amount - refined typography
+    yPos += 3;
     doc.setFillColor(220, 38, 38);
-    doc.rect(132, yPos - 6, 61, 12, 'F');
+    doc.rect(130, yPos - 7, 63, 13, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(11);
-    doc.setFont(undefined, 'bold');
-    doc.text('TOTAL AMOUNT:', 135, yPos);
-    doc.setFontSize(14);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text('TOTAL AMOUNT', 133, yPos - 1);
+    doc.setFontSize(15);
+    doc.setFont('times', 'bold');
     doc.text(`${currencySymbol}${total}`, 189, yPos, { align: 'right' });
 
-    // Payable Now
+    // Payable Now - elegant spacing
     doc.setTextColor(22, 163, 74);
-    yPos += 12;
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('Payable Now:', 135, yPos);
-    doc.setFontSize(12);
+    yPos += 14;
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Payable Now', 133, yPos);
+    doc.setFontSize(13);
+    doc.setFont('times', 'bold');
     doc.text(`${currencySymbol}${payableNow}`, 189, yPos, { align: 'right' });
 
-    // Remaining Amount
+    // Remaining Amount - refined
     if (parseFloat(remaining) > 0) {
       doc.setTextColor(239, 68, 68);
-      yPos += 10;
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'bold');
-      doc.text('Remaining Balance:', 135, yPos);
-      doc.setFontSize(12);
+      yPos += 12;
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Remaining Balance', 133, yPos);
+      doc.setFontSize(13);
+      doc.setFont('times', 'bold');
       doc.text(`${currencySymbol}${remaining}`, 189, yPos, { align: 'right' });
     }
 
-    yPos += 12;
+    yPos += 14;
 
-    // Bank Details Section - Elegant Box
-    doc.setDrawColor(200, 200, 200);
-    doc.setLineWidth(0.3);
-    doc.setFillColor(248, 250, 252);
-    doc.roundedRect(15, yPos, 180, 28, 3, 3, 'FD');
+    // Bank Details Section - Refined Elegant Box
+    doc.setDrawColor(210, 210, 210);
+    doc.setLineWidth(0.2);
+    doc.setFillColor(250, 251, 253);
+    doc.roundedRect(15, yPos, 180, 30, 2.5, 2.5, 'FD');
+
+    doc.setTextColor(220, 38, 38);
+    doc.setFontSize(10);
+    doc.setFont('times', 'bold');
+    doc.text('BANK DETAILS FOR PAYMENT', 20, yPos + 8);
+
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+
+    // Three columns - elegant typography
+    doc.text('Account Name', 20, yPos + 16);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('PLAN BETA', 20, yPos + 22);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('Account Number', 75, yPos + 16);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('50200087416170', 75, yPos + 22);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('IFSC Code', 135, yPos + 16);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('HDFC0009459', 135, yPos + 22);
+
+    yPos += 38;
+
+    // IMPORTANT: NO REFUND WARNING BOX - Prominent
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(1);
+    doc.setFillColor(254, 226, 226);
+    doc.roundedRect(15, yPos, 180, 16, 2, 2, 'FD');
 
     doc.setTextColor(220, 38, 38);
     doc.setFontSize(11);
-    doc.setFont(undefined, 'bold');
-    doc.text('BANK DETAILS FOR PAYMENT', 20, yPos + 7);
+    doc.setFont('helvetica', 'bold');
+    doc.text('⚠ IMPORTANT: NO REFUND POLICY', 20, yPos + 6);
 
-    doc.setTextColor(40, 40, 40);
-    doc.setFontSize(9);
-    doc.setFont(undefined, 'normal');
+    doc.setTextColor(139, 0, 0);
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Once classes begin, ALL FEES ARE 100% NON-REFUNDABLE regardless of attendance', 20, yPos + 12);
 
-    // Three columns for bank details
-    doc.text('Account Name:', 20, yPos + 15);
-    doc.setFont(undefined, 'bold');
-    doc.text('PLAN BETA', 20, yPos + 20);
+    yPos += 22;
 
-    doc.setFont(undefined, 'normal');
-    doc.text('Account Number:', 75, yPos + 15);
-    doc.setFont(undefined, 'bold');
-    doc.text('50200087416170', 75, yPos + 20);
-
-    doc.setFont(undefined, 'normal');
-    doc.text('IFSC Code:', 135, yPos + 15);
-    doc.setFont(undefined, 'bold');
-    doc.text('HDFC0009459', 135, yPos + 20);
-
-    yPos += 35;
-
-    // Refund Policy Section
-    doc.setTextColor(0, 0, 0);
-    doc.setFont(undefined, 'bold');
+    // Refund Policy Section - Enhanced with red left border
+    doc.setTextColor(220, 38, 38);
+    doc.setFont('times', 'bold');
     doc.setFontSize(11);
-    doc.text('PAYMENT TERMS & REFUND POLICY:', 18, yPos);
+    doc.text('PAYMENT TERMS & REFUND POLICY', 25, yPos);
 
-    doc.setFont(undefined, 'normal');
+    // Red left border stripe for policy text
+    doc.setDrawColor(220, 38, 38);
+    doc.setLineWidth(3);
+
+    doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(60, 60, 60);
-    yPos += 6;
+    doc.setTextColor(50, 50, 50);
+    yPos += 7;
 
-    const notes = doc.splitTextToSize(formData.additionalNotes, 175);
+    const startY = yPos;
+    const notes = doc.splitTextToSize(formData.additionalNotes, 168);
     notes.forEach(line => {
-      if (yPos > 235) {
+      if (yPos > 220) {
         return; // Stop if we're getting too close to footer
       }
-      doc.text(line, 18, yPos);
-      yPos += 4.5;
+      // Highlight key phrases in bold red
+      if (line.includes('non-refundable') || line.includes('regardless of attendance') ||
+          line.includes('binding and non-negotiable')) {
+        const parts = line.split(/(non-refundable|regardless of attendance|binding and non-negotiable)/gi);
+        let xOffset = 25;
+        parts.forEach(part => {
+          if (/(non-refundable|regardless of attendance|binding and non-negotiable)/i.test(part)) {
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(220, 38, 38);
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 50, 50);
+          }
+          doc.text(part, xOffset, yPos);
+          xOffset += doc.getTextWidth(part);
+        });
+      } else {
+        doc.text(line, 25, yPos);
+      }
+      yPos += 4.8;
     });
 
-    // Footer - Enhanced with better spacing and design
-    const footerY = 265;
+    // Draw red left border stripe
+    doc.line(18, startY - 4, 18, yPos - 2);
+
+    yPos += 4;
+
+    // Confirmation Statement Box
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.3);
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(15, yPos, 180, 12, 1.5, 1.5, 'FD');
+
+    doc.setTextColor(80, 80, 80);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'italic');
+    doc.text('By signing/accepting this invoice, I confirm that I have read and understood the refund policy stated above.', 20, yPos + 8);
+
+    // Footer - Elegant refined design
+    const footerY = 263;
     doc.setFillColor(220, 38, 38);
-    doc.rect(0, footerY, 210, 32, 'F');
+    doc.rect(0, footerY, 210, 34, 'F');
 
-    doc.setFontSize(11);
+    doc.setFontSize(12);
     doc.setTextColor(255, 255, 255);
-    doc.setFont(undefined, 'bold');
-    doc.text('Plan Beta School of German', 105, footerY + 9, { align: 'center' });
+    doc.setFont('times', 'bold');
+    doc.text('Plan Beta School of German', 105, footerY + 10, { align: 'center' });
 
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(255, 245, 245);
+    doc.text('KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India', 105, footerY + 17, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
-    doc.setFont(undefined, 'normal');
-    doc.setTextColor(255, 240, 240);
-    doc.text('KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India', 105, footerY + 16, { align: 'center' });
+    doc.setFont('helvetica', 'bold');
+    doc.text('GST: 32AJVPS3359N1ZB', 105, footerY + 24, { align: 'center' });
 
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(255, 245, 245);
+    doc.text('Email: info@planbeta.in | Phone: +49 30 1234567', 105, footerY + 27, { align: 'center' });
+
+    // Footer note about refund policy
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
     doc.setTextColor(255, 255, 255);
-    doc.setFont(undefined, 'bold');
-    doc.text('GST: 32AJVPS3359N1ZB', 105, footerY + 22, { align: 'center' });
-
-    doc.setFont(undefined, 'normal');
-    doc.setTextColor(255, 240, 240);
-    doc.text('Email: info@planbeta.in | Phone: +49 30 1234567', 105, footerY + 28, { align: 'center' });
+    doc.text('All fees subject to no-refund policy once batch commences', 105, footerY + 32, { align: 'center' });
 
     // Save the PDF
     const fileName = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.pdf`;

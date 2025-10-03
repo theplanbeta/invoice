@@ -576,13 +576,15 @@ export default function InvoiceGenerator() {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(255, 245, 245);
-    doc.text('Email: info@planbeta.in | Phone: +49 30 1234567', 105, footerY + 27, { align: 'center' });
+    doc.text('Email: info@planbeta.in | Phone: +91 8547081550', 105, footerY + 27, { align: 'center' });
 
-    // Footer note about refund policy
-    doc.setFontSize(7);
-    doc.setFont('helvetica', 'bold');
+    // Footer note about refund policy - elegantly framed
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'italic');
     doc.setTextColor(255, 255, 255);
-    doc.text('All fees subject to no-refund policy once batch commences', 105, footerY + 32, { align: 'center' });
+    doc.text('All fees are subject to our no-refund policy once batch commences, even if no classes are attended.', 105, footerY + 31, { align: 'center' });
+    doc.setFont('helvetica', 'bold');
+    doc.text('By paying this invoice, you acknowledge and accept this condition.', 105, footerY + 34, { align: 'center' });
 
     // Save the PDF
     const fileName = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.pdf`;

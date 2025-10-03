@@ -172,9 +172,9 @@ export default function InvoiceGenerator() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Load and add logo
+    // Load new logo
     const logoImg = new Image();
-    logoImg.src = '/logo.png';
+    logoImg.src = '/blogo.png';
 
     await new Promise((resolve, reject) => {
       logoImg.onload = resolve;
@@ -185,23 +185,22 @@ export default function InvoiceGenerator() {
     doc.setFillColor(210, 48, 44);
     doc.rect(0, 0, 210, 55, 'F');
 
-    // Use SVG logo with text directly (no background needed)
-    const logoSvg = new Image();
-    logoSvg.src = '/logo-full.svg';
+    // Add circular B logo
+    doc.addImage(logoImg, 'PNG', 15, 12, 30, 30);
 
-    await new Promise((resolve, reject) => {
-      logoSvg.onload = resolve;
-      logoSvg.onerror = reject;
-    });
-
-    // Add full logo with text in header
-    doc.addImage(logoSvg, 'SVG', 15, 15, 80, 25);
-
-    // Tagline below logo
+    // School branding next to logo
     doc.setTextColor(255, 255, 255);
+    doc.setFontSize(28);
+    doc.setFont('times', 'bold');
+    doc.text('PLAN BETA', 50, 24);
+
+    doc.setFontSize(12);
+    doc.setFont('times', 'italic');
+    doc.text('School of German', 50, 33);
+
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in German Language Education', 18, 44);
+    doc.text('Excellence in German Language Education', 50, 40);
 
     // Invoice title - elegant positioning
     doc.setFontSize(22);
@@ -594,7 +593,11 @@ export default function InvoiceGenerator() {
           <div style={{backgroundColor: '#d2302c'}} className="p-8 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <img src="/logo-full.svg" alt="Plan Beta Logo" className="h-16" />
+                <img src="/blogo.png" alt="Plan Beta Logo" className="h-16 w-16" />
+                <div>
+                  <h1 className="text-4xl font-bold mb-1">Plan Beta</h1>
+                  <p className="text-white text-opacity-90 text-sm">School of German | Invoice Generator</p>
+                </div>
               </div>
               <FileText className="w-16 h-16 opacity-80" />
             </div>

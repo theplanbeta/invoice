@@ -429,11 +429,11 @@ export default function InvoiceGenerator() {
 
     yPos += 14;
 
-    // Bank Details Section - Refined Elegant Box
+    // Bank Details Section - Refined Elegant Box (increased height for UPI)
     doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.2);
     doc.setFillColor(250, 251, 253);
-    doc.roundedRect(15, yPos, 180, 30, 2.5, 2.5, 'FD');
+    doc.roundedRect(15, yPos, 180, 38, 2.5, 2.5, 'FD');
 
     doc.setTextColor(210, 48, 44);
     doc.setFontSize(10);
@@ -464,7 +464,17 @@ export default function InvoiceGenerator() {
     doc.setFontSize(9);
     doc.text('HDFC0009459', 135, yPos + 22);
 
-    yPos += 38;
+    // UPI ID - centered at bottom with elegant styling
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(60, 60, 60);
+    doc.text('UPI ID:', 20, yPos + 30);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(210, 48, 44);
+    doc.text('7736638706@ybl', 38, yPos + 30);
+
+    yPos += 46;
 
     // IMPORTANT: NO REFUND WARNING BOX - Prominent
     doc.setDrawColor(210, 48, 44);

@@ -168,25 +168,37 @@ export default function InvoiceGenerator() {
     }));
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+
+    // Load and add logo
+    const logoImg = new Image();
+    logoImg.src = '/logo.png';
+
+    await new Promise((resolve, reject) => {
+      logoImg.onload = resolve;
+      logoImg.onerror = reject;
+    });
 
     // Header with gradient effect
     doc.setFillColor(220, 38, 38);
     doc.rect(0, 0, 210, 50, 'F');
 
-    // School name
+    // Add logo to header
+    doc.addImage(logoImg, 'PNG', 15, 10, 30, 30);
+
+    // School name (positioned to the right of logo)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(32);
     doc.setFont(undefined, 'bold');
-    doc.text('PLAN BETA', 20, 24);
+    doc.text('PLAN BETA', 50, 24);
 
     doc.setFontSize(14);
     doc.setFont(undefined, 'normal');
-    doc.text('School of German', 20, 33);
+    doc.text('School of German', 50, 33);
     doc.setFontSize(9);
-    doc.text('Excellence in German Language Education', 20, 40);
+    doc.text('Excellence in German Language Education', 50, 40);
 
     // Invoice title
     doc.setFontSize(26);
@@ -486,9 +498,12 @@ export default function InvoiceGenerator() {
           {/* Header */}
           <div className="bg-gradient-to-r from-red-600 to-red-700 p-8 text-white">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-4xl font-bold mb-2">Plan Beta</h1>
-                <p className="text-red-100 text-lg">School of German | Invoice Generator</p>
+              <div className="flex items-center gap-4">
+                <img src="/logo.png" alt="Plan Beta Logo" className="w-16 h-16" />
+                <div>
+                  <h1 className="text-4xl font-bold mb-2">Plan Beta</h1>
+                  <p className="text-red-100 text-lg">School of German | Invoice Generator</p>
+                </div>
               </div>
               <FileText className="w-16 h-16 opacity-80" />
             </div>

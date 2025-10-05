@@ -656,7 +656,7 @@ export default function InvoiceGenerator() {
                 <tr style="background: ${idx % 2 === 0 ? '#fafcfe' : '#fff'}; border-bottom: 1px solid #eee;">
                   <td style="padding: 12px 10px; font-size: 11px;">${item.description}</td>
                   <td style="padding: 12px 10px;">
-                    <span style="background: ${lvlColor}; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: bold;">${item.level}</span>
+                    <span style="background-color: ${lvlColor}; color: #ffffff; padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; min-width: 50px; text-align: center;">${item.level}</span>
                   </td>
                   <td style="padding: 12px 10px; font-size: 11px;">${item.month}</td>
                   <td style="padding: 12px 10px; text-align: right; font-weight: bold; font-size: 12px;">${currencySymbol}${parseFloat(item.amount).toFixed(2)}</td>

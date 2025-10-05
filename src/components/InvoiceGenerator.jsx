@@ -170,6 +170,52 @@ export default function InvoiceGenerator() {
     }));
   };
 
+  const sendEmailWithPDF = async (pdfBlob) => {
+    if (!formData.studentEmail) {
+      return; // Skip email if no email provided
+    }
+
+    try {
+      // Convert blob to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve) => {
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.readAsDataURL(pdfBlob);
+      });
+
+      const pdfBase64 = await base64Promise;
+
+      // Send to API
+      const response = await fetch('/api/send-invoice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          studentEmail: formData.studentEmail,
+          studentName: formData.studentName,
+          invoiceNumber: formData.invoiceNumber,
+          pdfBase64: pdfBase64
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(`✅ Invoice sent successfully to ${formData.studentEmail}`);
+      } else {
+        console.error('Email error:', result);
+        alert(`⚠️ PDF downloaded, but email failed to send. Please send manually to ${formData.studentEmail}`);
+      }
+    } catch (error) {
+      console.error('Email sending error:', error);
+      alert(`⚠️ PDF downloaded, but email failed to send. Please send manually to ${formData.studentEmail}`);
+    }
+  };
+
   const generatePDF = async () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -590,6 +636,12 @@ export default function InvoiceGenerator() {
     // Save the PDF
     const fileName = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.pdf`;
     doc.save(fileName);
+
+    // Send email if student email is provided
+    if (formData.studentEmail) {
+      const pdfBlob = doc.output('blob');
+      await sendEmailWithPDF(pdfBlob);
+    }
   };
 
   const generateJPG = async () => {

@@ -691,15 +691,34 @@ export default function InvoiceGenerator() {
           </div>
         </div>
 
-        <div style="background: #fee2e2; border: 2px solid #d2302c; border-radius: 4px; padding: 12px; margin-top: 15px;">
-          <div style="color: #d2302c; font-size: 12px; font-weight: bold;">⚠ NO REFUND POLICY</div>
-          <div style="color: #8b0000; font-size: 10px; font-weight: bold; margin-top: 3px;">All fees are 100% non-refundable once classes begin</div>
+        <div style="background: #fee2e2; border: 2px solid #d2302c; border-radius: 4px; padding: 15px; margin-top: 20px;">
+          <div style="color: #d2302c; font-size: 13px; font-weight: bold; margin-bottom: 8px;">⚠ IMPORTANT: NO REFUND POLICY</div>
+          <div style="color: #8b0000; font-size: 10px; font-weight: bold; margin-bottom: 8px;">Once classes begin, ALL FEES ARE 100% NON-REFUNDABLE regardless of attendance</div>
+        </div>
+
+        <div style="border-left: 4px solid #d2302c; padding-left: 15px; margin-top: 15px; margin-bottom: 15px;">
+          <h3 style="margin: 0 0 8px 0; font-size: 12px; font-weight: bold; color: #d2302c;">PAYMENT TERMS & REFUND POLICY</h3>
+          <p style="margin: 0; font-size: 9px; line-height: 1.6; color: #323232;">
+            Payment due today. By making this payment, you acknowledge and accept our refund policy: Once the first class of the batch has commenced, all fees are <strong style="color: #d2302c;">non-refundable</strong> <strong style="color: #d2302c;">regardless of attendance</strong>. This policy exists because our small group batches begin with committed class sizes and instructor compensation is allocated accordingly from the course fees. This term is <strong style="color: #d2302c;">binding and non-negotiable</strong> upon payment. The remaining balance, if any, must be paid within 7 days from the first class date, irrespective of attendance.
+          </p>
+        </div>
+
+        <div style="background: #f5f5f5; border: 1px solid #c8c8c8; border-radius: 4px; padding: 10px; font-size: 9px; font-style: italic; color: #505050;">
+          By signing/accepting this invoice, I confirm that I have read and understood the refund policy stated above.
         </div>
       </div>
 
-      <div style="background: #d2302c; color: white; padding: 15px; text-align: center;">
-        <div style="font-size: 13px; font-weight: bold;">Plan Beta School of German</div>
-        <div style="font-size: 9px; margin-top: 5px;">Email: info@planbeta.in | Phone: +91 8547081550</div>
+      <div style="background: #d2302c; color: white; padding: 20px; text-align: center;">
+        <div style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">Plan Beta School of German</div>
+        <div style="font-size: 9px; line-height: 1.5; opacity: 0.95; margin-bottom: 5px;">
+          KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India<br/>
+          <strong>GST: 32AJVPS3359N1ZB</strong>
+        </div>
+        <div style="font-size: 9px; margin-bottom: 8px;">Email: info@planbeta.in | Phone: +91 8547081550</div>
+        <div style="font-size: 8px; font-style: italic; line-height: 1.4; opacity: 0.9;">
+          All fees are subject to our no-refund policy once batch commences, even if no classes are attended.<br/>
+          <strong>By paying this invoice, you acknowledge and accept this condition.</strong>
+        </div>
       </div>
     `;
 

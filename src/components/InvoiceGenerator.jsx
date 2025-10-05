@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileText, Download, Plus, Trash2 } from 'lucide-react';
+import html2canvas from 'html2canvas';
 
 export default function InvoiceGenerator() {
   // Generate initial invoice number
@@ -592,460 +593,142 @@ export default function InvoiceGenerator() {
   };
 
   const generateJPG = async () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    // Create invoice preview div for screenshot
+    const invoicePreview = document.createElement('div');
+    invoicePreview.style.position = 'absolute';
+    invoicePreview.style.left = '-10000px';
+    invoicePreview.style.width = '794px'; // A4 width in pixels at 96 DPI
+    invoicePreview.style.backgroundColor = '#ffffff';
+    invoicePreview.style.fontFamily = 'Arial, sans-serif';
 
-    // Load logo
-    const logoImg = new Image();
-    logoImg.src = '/blogo.png';
-
-    await new Promise((resolve, reject) => {
-      logoImg.onload = resolve;
-      logoImg.onerror = reject;
-    });
-
-    // Generate complete PDF content (same as generatePDF function)
-    // Elegant header with refined spacing - new brand color
-    doc.setFillColor(210, 48, 44);
-    doc.rect(0, 0, 210, 55, 'F');
-
-    // Add circular B logo
-    doc.addImage(logoImg, 'PNG', 15, 12, 30, 30);
-
-    // School branding next to logo
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(28);
-    doc.setFont('times', 'bold');
-    doc.text('PLAN BETA', 50, 24);
-
-    doc.setFontSize(12);
-    doc.setFont('times', 'italic');
-    doc.text('School of German', 50, 33);
-
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in German Language Education', 50, 40);
-
-    // Invoice title - elegant positioning
-    doc.setFontSize(22);
-    doc.setFont('times', 'bold');
-    doc.text('INVOICE', 155, 22);
-
-    // Invoice details box - refined elegant styling
-    doc.setFillColor(255, 255, 255);
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(0.3);
-    doc.roundedRect(148, 27, 47, 20, 2, 2, 'FD');
-
-    doc.setFontSize(7);
-    doc.setTextColor(120, 120, 120);
-    doc.setFont('helvetica', 'normal');
-    doc.text('INVOICE NUMBER', 151, 32);
-
-    doc.setFontSize(11);
-    doc.setTextColor(210, 48, 44);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`#${formData.invoiceNumber}`, 151, 38);
-
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Date: ${formData.date}`, 151, 44);
-
-    // School contact info - refined elegant spacing
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(11);
-    doc.setFont('times', 'bold');
-    doc.text('Plan Beta School of German', 20, 66);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(80, 80, 80);
-    doc.text('KRA A-23, Chattamby Swamy Nagar', 20, 74);
-    doc.text('Kannammoola, Thiruvananthapuram', 20, 80);
-    doc.text('Kerala 695011, India', 20, 86);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.setTextColor(0, 0, 0);
-    doc.text('GST: 32AJVPS3359N1ZB', 20, 93);
-
-    // Bill to section - elegant typography with red highlight
-    doc.setFont('times', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(210, 48, 44);
-    doc.text('BILL TO', 120, 66);
-
-    doc.setFont('times', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(0, 0, 0);
-    doc.text(formData.studentName, 120, 75);
-
-    if (formData.studentAddress) {
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(80, 80, 80);
-      const addressLines = doc.splitTextToSize(formData.studentAddress, 75);
-      let yPos = 82;
-      addressLines.forEach(line => {
-        doc.text(line, 120, yPos);
-        yPos += 5;
-      });
-
-      if (formData.studentEmail) {
-        yPos += 2;
-        doc.setFontSize(8);
-        doc.text(`${formData.studentEmail}`, 120, yPos);
-        yPos += 5;
-      }
-      if (formData.studentPhone) {
-        doc.text(`${formData.studentPhone}`, 120, yPos);
-      }
-    }
-
-    // Payment terms - enhanced with box
-    if (formData.dueDate) {
-      doc.setFillColor(254, 242, 242);
-      doc.setDrawColor(210, 48, 44);
-      doc.setLineWidth(0.3);
-      doc.roundedRect(119, 100, 76, 8, 1.5, 1.5, 'FD');
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(210, 48, 44);
-      doc.setFontSize(9);
-      doc.text(`Due Date: ${formData.dueDate}`, 122, 105);
-      doc.setFont('helvetica', 'normal');
-    }
-
-    // Table header with elegant spacing
-    const tableTop = 115;
-    doc.setFillColor(210, 48, 44);
-    doc.rect(15, tableTop, 180, 12, 'F');
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'bold');
-    doc.text('COURSE DESCRIPTION', 18, tableTop + 7.5);
-    doc.text('LEVEL', 80, tableTop + 7.5);
-    doc.text('MONTH', 110, tableTop + 7.5);
-    doc.text('BATCH', 140, tableTop + 7.5);
-    doc.text(`AMOUNT (${formData.currency})`, 189, tableTop + 7.5, { align: 'right' });
-
-    // Table content with elegant refined styling
-    doc.setTextColor(0, 0, 0);
-    doc.setFont('helvetica', 'normal');
-    let yPos = tableTop + 21;
-
-    formData.items.forEach((item, index) => {
-      const levelColor = levels.find(l => l.value === item.level)?.color || '#000000';
-      const amount = parseFloat(item.amount || 0).toFixed(2);
-
-      // Elegant alternating row colors
-      if (index % 2 === 0) {
-        doc.setFillColor(250, 252, 254);
-      } else {
-        doc.setFillColor(255, 255, 255);
-      }
-      doc.rect(15, yPos - 7, 180, 14, 'F');
-
-      // Refined subtle border
-      doc.setDrawColor(235, 235, 235);
-      doc.setLineWidth(0.1);
-      doc.line(15, yPos + 7, 195, yPos + 7);
-
-      doc.setFontSize(9.5);
-      doc.setTextColor(30, 30, 30);
-      doc.setFont('helvetica', 'normal');
-      doc.text(item.description, 18, yPos);
-
-      // Refined level badge
-      doc.setFillColor(parseInt(levelColor.slice(1, 3), 16),
-                       parseInt(levelColor.slice(3, 5), 16),
-                       parseInt(levelColor.slice(5, 7), 16));
-      doc.roundedRect(78, yPos - 4.5, 20, 8, 2, 2, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.text(item.level, 88, yPos, { align: 'center' });
-
-      doc.setTextColor(50, 50, 50);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-
-      // Month - elegant
-      if (item.month) {
-        doc.text(item.month, 110, yPos);
-      }
-
-      // Batch - elegant
-      if (item.batch) {
-        doc.text(item.batch, 140, yPos);
-      }
-
-      // Amount - bold and prominent
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 0, 0);
-      doc.setFontSize(10);
-      doc.text(`${getCurrencySymbol()}${amount}`, 189, yPos, { align: 'right' });
-
-      yPos += 14;
-      doc.setFont('helvetica', 'normal');
-    });
-
-    // Elegant table bottom border
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(0.8);
-    doc.line(15, yPos - 7, 195, yPos - 7);
-
-    // Decorative red separator line before payment summary
-    yPos += 8;
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(0.3);
-    doc.line(15, yPos, 195, yPos);
-
-    // Payment Summary Section - Refined Elegant Box
-    yPos += 8;
+    const currencySymbol = getCurrencySymbol();
     const total = calculateTotal().toFixed(2);
     const payableNow = parseFloat(formData.payableNow || 0).toFixed(2);
     const remaining = parseFloat(formData.remainingAmount || 0).toFixed(2);
-    const currencySymbol = getCurrencySymbol();
 
-    // Elegant payment summary box with refined border
-    const summaryBoxHeight = parseFloat(remaining) > 0 ? 42 : 32;
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(0.4);
-    doc.setFillColor(255, 252, 252);
-    doc.roundedRect(128, yPos - 6, 67, summaryBoxHeight, 3, 3, 'FD');
+    invoicePreview.innerHTML = `
+      <div style="background: #d2302c; padding: 40px 30px; color: white; position: relative;">
+        <div style="display: flex; align-items: flex-start; gap: 20px;">
+          <img src="/blogo.png" style="width: 70px; height: 70px;" crossorigin="anonymous" />
+          <div>
+            <h1 style="margin: 0; font-size: 32px; font-weight: bold;">PLAN BETA</h1>
+            <p style="margin: 5px 0 0 0; font-size: 14px; font-style: italic;">School of German</p>
+          </div>
+        </div>
+        <div style="position: absolute; top: 30px; right: 30px; background: white; padding: 15px; border-radius: 8px;">
+          <div style="color: #787878; font-size: 10px;">INVOICE NUMBER</div>
+          <div style="color: #d2302c; font-size: 16px; font-weight: bold; margin-top: 5px;">#${formData.invoiceNumber}</div>
+          <div style="color: #646464; font-size: 11px; margin-top: 5px;">Date: ${formData.date}</div>
+        </div>
+      </div>
 
-    // Total Amount - refined typography
-    yPos += 3;
-    doc.setFillColor(210, 48, 44);
-    doc.rect(130, yPos - 7, 63, 13, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'bold');
-    doc.text('TOTAL AMOUNT', 133, yPos - 1);
-    doc.setFontSize(15);
-    doc.setFont('times', 'bold');
-    doc.text(`${currencySymbol}${total}`, 189, yPos, { align: 'right' });
+      <div style="padding: 30px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+          <div>
+            <h3 style="margin: 0; font-size: 13px;">Plan Beta School of German</h3>
+            <p style="margin: 8px 0 0 0; font-size: 11px; line-height: 1.5; color: #505050;">
+              KRA A-23, Chattamby Swamy Nagar<br/>
+              Kannammoola, Thiruvananthapuram<br/>
+              Kerala 695011, India<br/>
+              <strong>GST: 32AJVPS3359N1ZB</strong>
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <h3 style="margin: 0; font-size: 13px; color: #d2302c;">BILL TO</h3>
+            <p style="margin: 8px 0 0 0; font-size: 13px; font-weight: bold;">${formData.studentName}</p>
+            ${formData.studentAddress ? `<p style="margin: 5px 0 0 0; font-size: 10px; color: #505050;">${formData.studentAddress.replace(/\n/g, '<br/>')}</p>` : ''}
+          </div>
+        </div>
 
-    // Payable Now - elegant spacing
-    doc.setTextColor(22, 163, 74);
-    yPos += 14;
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Payable Now', 133, yPos);
-    doc.setFontSize(13);
-    doc.setFont('times', 'bold');
-    doc.text(`${currencySymbol}${payableNow}`, 189, yPos, { align: 'right' });
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+          <thead>
+            <tr style="background: #d2302c; color: white;">
+              <th style="padding: 10px; text-align: left; font-size: 10px;">DESCRIPTION</th>
+              <th style="padding: 10px; text-align: left; font-size: 10px;">LEVEL</th>
+              <th style="padding: 10px; text-align: left; font-size: 10px;">MONTH</th>
+              <th style="padding: 10px; text-align: right; font-size: 10px;">AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${formData.items.map((item, idx) => {
+              const lvlColor = levels.find(l => l.value === item.level)?.color || '#000';
+              return `
+                <tr style="background: ${idx % 2 === 0 ? '#fafcfe' : '#fff'}; border-bottom: 1px solid #eee;">
+                  <td style="padding: 12px 10px; font-size: 11px;">${item.description}</td>
+                  <td style="padding: 12px 10px;">
+                    <span style="background: ${lvlColor}; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: bold;">${item.level}</span>
+                  </td>
+                  <td style="padding: 12px 10px; font-size: 11px;">${item.month}</td>
+                  <td style="padding: 12px 10px; text-align: right; font-weight: bold; font-size: 12px;">${currencySymbol}${parseFloat(item.amount).toFixed(2)}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
 
-    // Remaining Amount - refined
-    if (parseFloat(remaining) > 0) {
-      doc.setTextColor(239, 68, 68);
-      yPos += 12;
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Remaining Balance', 133, yPos);
-      doc.setFontSize(13);
-      doc.setFont('times', 'bold');
-      doc.text(`${currencySymbol}${remaining}`, 189, yPos, { align: 'right' });
+        <div style="background: #fffcfc; border: 2px solid #d2302c; border-radius: 6px; padding: 15px; margin-left: auto; width: 280px;">
+          <div style="background: #d2302c; color: white; padding: 10px; margin: -15px -15px 12px -15px;">
+            <div style="font-size: 11px; font-weight: bold;">TOTAL AMOUNT</div>
+            <div style="font-size: 18px; font-weight: bold; margin-top: 3px;">${currencySymbol}${total}</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: bold; color: #16a34a; font-size: 11px;">Payable Now</span>
+            <span style="font-weight: bold; color: #16a34a; font-size: 14px;">${currencySymbol}${payableNow}</span>
+          </div>
+          ${parseFloat(remaining) > 0 ? `
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-weight: bold; color: #ef4444; font-size: 11px;">Remaining</span>
+              <span style="font-weight: bold; color: #ef4444; font-size: 14px;">${currencySymbol}${remaining}</span>
+            </div>
+          ` : ''}
+        </div>
+
+        <div style="background: #fafbfd; border: 1px solid #d2d2d2; border-radius: 6px; padding: 15px; margin-top: 20px;">
+          <h3 style="margin: 0 0 10px 0; font-size: 12px; color: #d2302c;">BANK DETAILS FOR PAYMENT</h3>
+          <div style="font-size: 10px;">
+            Account: <strong>PLAN BETA</strong> | A/C: <strong>50200087416170</strong> | IFSC: <strong>HDFC0009459</strong><br/>
+            UPI ID: <strong style="color: #d2302c;">7736638706@ybl</strong>
+          </div>
+        </div>
+
+        <div style="background: #fee2e2; border: 2px solid #d2302c; border-radius: 4px; padding: 12px; margin-top: 15px;">
+          <div style="color: #d2302c; font-size: 12px; font-weight: bold;">⚠ NO REFUND POLICY</div>
+          <div style="color: #8b0000; font-size: 10px; font-weight: bold; margin-top: 3px;">All fees are 100% non-refundable once classes begin</div>
+        </div>
+      </div>
+
+      <div style="background: #d2302c; color: white; padding: 15px; text-align: center;">
+        <div style="font-size: 13px; font-weight: bold;">Plan Beta School of German</div>
+        <div style="font-size: 9px; margin-top: 5px;">Email: info@planbeta.in | Phone: +91 8547081550</div>
+      </div>
+    `;
+
+    document.body.appendChild(invoicePreview);
+
+    try {
+      const canvas = await html2canvas(invoicePreview, {
+        scale: 3,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        allowTaint: true,
+        logging: false
+      });
+
+      document.body.removeChild(invoicePreview);
+
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.jpg`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      }, 'image/jpeg', 0.92);
+    } catch (error) {
+      document.body.removeChild(invoicePreview);
+      alert('Error generating JPG. Please try the PDF button instead.');
+      console.error(error);
     }
-
-    yPos += 14;
-
-    // Bank Details Section - Refined Elegant Box (increased height for UPI)
-    doc.setDrawColor(210, 210, 210);
-    doc.setLineWidth(0.2);
-    doc.setFillColor(250, 251, 253);
-    doc.roundedRect(15, yPos, 180, 38, 2.5, 2.5, 'FD');
-
-    doc.setTextColor(210, 48, 44);
-    doc.setFontSize(10);
-    doc.setFont('times', 'bold');
-    doc.text('BANK DETAILS FOR PAYMENT', 20, yPos + 8);
-
-    doc.setTextColor(60, 60, 60);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-
-    // Three columns - elegant typography
-    doc.text('Account Name', 20, yPos + 16);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('PLAN BETA', 20, yPos + 22);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.text('Account Number', 75, yPos + 16);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('50200087416170', 75, yPos + 22);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.text('IFSC Code', 135, yPos + 16);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('HDFC0009459', 135, yPos + 22);
-
-    // UPI ID - centered at bottom with elegant styling
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(60, 60, 60);
-    doc.text('UPI ID:', 20, yPos + 30);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(210, 48, 44);
-    doc.text('7736638706@ybl', 38, yPos + 30);
-
-    yPos += 46;
-
-    // IMPORTANT: NO REFUND WARNING BOX - Prominent
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(1);
-    doc.setFillColor(254, 226, 226);
-    doc.roundedRect(15, yPos, 180, 16, 2, 2, 'FD');
-
-    doc.setTextColor(210, 48, 44);
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.text('⚠ IMPORTANT: NO REFUND POLICY', 20, yPos + 6);
-
-    doc.setTextColor(139, 0, 0);
-    doc.setFontSize(8.5);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Once classes begin, ALL FEES ARE 100% NON-REFUNDABLE regardless of attendance', 20, yPos + 12);
-
-    yPos += 22;
-
-    // Refund Policy Section - Enhanced with red left border
-    doc.setTextColor(210, 48, 44);
-    doc.setFont('times', 'bold');
-    doc.setFontSize(11);
-    doc.text('PAYMENT TERMS & REFUND POLICY', 25, yPos);
-
-    // Red left border stripe for policy text
-    doc.setDrawColor(210, 48, 44);
-    doc.setLineWidth(3);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(50, 50, 50);
-    yPos += 7;
-
-    const startY = yPos;
-    const notes = doc.splitTextToSize(formData.additionalNotes, 168);
-    notes.forEach(line => {
-      if (yPos > 220) {
-        return; // Stop if we're getting too close to footer
-      }
-      // Highlight key phrases in bold red
-      if (line.includes('non-refundable') || line.includes('regardless of attendance') ||
-          line.includes('binding and non-negotiable')) {
-        const parts = line.split(/(non-refundable|regardless of attendance|binding and non-negotiable)/gi);
-        let xOffset = 25;
-        parts.forEach(part => {
-          if (/(non-refundable|regardless of attendance|binding and non-negotiable)/i.test(part)) {
-            doc.setFont('helvetica', 'bold');
-            doc.setTextColor(210, 48, 44);
-          } else {
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 50, 50);
-          }
-          doc.text(part, xOffset, yPos);
-          xOffset += doc.getTextWidth(part);
-        });
-      } else {
-        doc.text(line, 25, yPos);
-      }
-      yPos += 4.8;
-    });
-
-    // Draw red left border stripe
-    doc.line(18, startY - 4, 18, yPos - 2);
-
-    yPos += 4;
-
-    // Confirmation Statement Box
-    doc.setDrawColor(200, 200, 200);
-    doc.setLineWidth(0.3);
-    doc.setFillColor(245, 245, 245);
-    doc.roundedRect(15, yPos, 180, 12, 1.5, 1.5, 'FD');
-
-    doc.setTextColor(80, 80, 80);
-    doc.setFontSize(7.5);
-    doc.setFont('helvetica', 'italic');
-    doc.text('By signing/accepting this invoice, I confirm that I have read and understood the refund policy stated above.', 20, yPos + 8);
-
-    // Footer - Elegant refined design
-    const footerY = 263;
-    doc.setFillColor(210, 48, 44);
-    doc.rect(0, footerY, 210, 34, 'F');
-
-    doc.setFontSize(12);
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('times', 'bold');
-    doc.text('Plan Beta School of German', 105, footerY + 10, { align: 'center' });
-
-    doc.setFontSize(7.5);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(255, 245, 245);
-    doc.text('KRA A-23, Chattamby Swamy Nagar, Kannammoola, Thiruvananthapuram, Kerala 695011, India', 105, footerY + 17, { align: 'center' });
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'bold');
-    doc.text('GST: 32AJVPS3359N1ZB', 105, footerY + 24, { align: 'center' });
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(255, 245, 245);
-    doc.text('Email: info@planbeta.in | Phone: +91 8547081550', 105, footerY + 27, { align: 'center' });
-
-    // Footer note about refund policy - elegantly framed
-    doc.setFontSize(6.5);
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(255, 255, 255);
-    doc.text('All fees are subject to our no-refund policy once batch commences, even if no classes are attended.', 105, footerY + 31, { align: 'center' });
-    doc.setFont('helvetica', 'bold');
-    doc.text('By paying this invoice, you acknowledge and accept this condition.', 105, footerY + 34, { align: 'center' });
-
-    // Convert first page to high-quality image
-    const imgData = doc.output('dataurlstring');
-
-    // Create high-res canvas
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    // A4 at 300 DPI for Instagram quality
-    canvas.width = 2480;
-    canvas.height = 3508;
-
-    // White background
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Load PDF as image
-    const pdfImage = new Image();
-    pdfImage.src = imgData;
-
-    await new Promise((resolve) => {
-      pdfImage.onload = resolve;
-    });
-
-    // Draw with high quality
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(pdfImage, 0, 0, canvas.width, canvas.height);
-
-    // Convert to JPG and download
-    canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.download = `PlanBeta_Invoice_${formData.invoiceNumber}_${formData.studentName.replace(/\s+/g, '_')}.jpg`;
-      link.href = url;
-      link.click();
-      URL.revokeObjectURL(url);
-    }, 'image/jpeg', 0.95);
   };
 
   const isFormValid = () => {

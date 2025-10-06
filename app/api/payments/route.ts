@@ -13,7 +13,7 @@ const Decimal = Prisma.Decimal
 const createPaymentSchema = z.object({
   studentId: z.string().min(1, 'Student ID required'),
   amount: z.number().positive('Amount must be positive').max(100000, 'Amount exceeds maximum'),
-  method: z.enum(['CASH', 'BANK_TRANSFER', 'UPI', 'CARD', 'CHEQUE']),
+  method: z.enum(['CASH', 'BANK_TRANSFER', 'UPI', 'CARD', 'OTHER']),
   paymentDate: z.string().datetime().optional(),
   status: z.enum(['PENDING', 'COMPLETED', 'FAILED', 'REFUNDED']).optional(),
   transactionId: z.string().optional(),

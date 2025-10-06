@@ -290,7 +290,7 @@ export async function PATCH(
       let totalAmount = existingEntry.totalAmount
       if (hoursWorked !== undefined || hourlyRate !== undefined) {
         const newHours = new Decimal(hoursWorked ?? existingEntry.hoursWorked.toString())
-        const newRate = new Decimal(hourlyRate ?? existingEntry.hourlyRate.toString())
+        const newRate = new Decimal(hourlyRate ?? existingEntry.hourlyRate?.toString() ?? '0')
         totalAmount = newHours.times(newRate)
       }
 

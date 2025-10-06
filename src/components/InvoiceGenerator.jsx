@@ -35,7 +35,8 @@ export default function InvoiceGenerator() {
     { value: 'A1 Hybrid', label: 'A1 Hybrid', color: '#06b6d4', feeINR: 10000, feeEUR: 100 },
     { value: 'A2', label: 'A2 - Elementary', color: '#3b82f6', feeINR: 16000, feeEUR: 156 },
     { value: 'B1', label: 'B1 - Intermediate', color: '#f59e0b', feeINR: 18000, feeEUR: 172 },
-    { value: 'B2', label: 'B2 - Upper Intermediate', color: '#8b5cf6', feeINR: 22000, feeEUR: 220 }
+    { value: 'B2', label: 'B2 - Upper Intermediate', color: '#8b5cf6', feeINR: 22000, feeEUR: 220 },
+    { value: 'Spoken German', label: 'Spoken German', color: '#ec4899', feeINR: 12000, feeEUR: 120 }
   ];
 
   const months = [
@@ -62,7 +63,7 @@ export default function InvoiceGenerator() {
         const selectedLevel = levels.find(l => l.value === item.level);
         if (selectedLevel) {
           const amount = value === 'EUR' ? selectedLevel.feeEUR : selectedLevel.feeINR;
-          return { ...item, amount: amount };
+          return { ...item, amount: amount.toString() };
         }
         return item;
       });
@@ -101,7 +102,7 @@ export default function InvoiceGenerator() {
       const selectedLevel = levels.find(l => l.value === value);
       if (selectedLevel) {
         const amount = formData.currency === 'EUR' ? selectedLevel.feeEUR : selectedLevel.feeINR;
-        newItems[index]['amount'] = amount;
+        newItems[index]['amount'] = amount.toString();
       }
     }
 
@@ -127,7 +128,7 @@ export default function InvoiceGenerator() {
     const defaultAmount = formData.currency === 'EUR' ? 134 : 14000; // A1 default
     setFormData(prev => ({
       ...prev,
-      items: [...prev.items, { level: 'A1', description: 'German Language Course', month: 'January', batch: 'Morning', amount: defaultAmount }]
+      items: [...prev.items, { level: 'A1', description: 'German Language Course', month: 'January', batch: 'Morning', amount: defaultAmount.toString() }]
     }));
   };
 

@@ -1,6 +1,11 @@
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Email is optional - gracefully handle if resend is not available
+let resend: any = null
+try {
+  const { Resend } = require('resend')
+  resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+} catch (error) {
+  console.log('Resend package not installed - email functionality disabled')
+}
 
 export type EmailTemplate =
   | 'student-welcome'
@@ -270,6 +275,12 @@ export async function sendEmail(
   template: EmailTemplate,
   data: Record<string, string | number | boolean | null | undefined>
 ) {
+  // Skip email sending if Resend is not configured
+  if (!resend) {
+    console.log('Email skipped (Resend not configured):', template)
+    return { success: true, skipped: true, message: 'Email service not configured' }
+  }
+
   try {
     const emailData = generateEmail(template, data)
 
